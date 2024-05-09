@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Smart Home</h1>
+        <div class="device">
+            <h2>Light</h2>
+            <button id="light-on">On</button>
+            <button id="light-off">Off</button>
+            <form id="light-timer-form">
+                <label for="light-timer">Schedule timer (s):</label>
+                <input type="number" id="light-timer" required>
+                <button type="submit">Schedule</button>
+            </form>
+            <span id="light-status">Light: </span>
+        </div>
+        <div class="device">
+            <h2>Fan</h2>
+            <button id = "fan-off">Off</button>
+            <button id = "fan-low">Low</button>
+            <button id = "fan-medium">Medium</button>
+            <button id = "fan-high">High</button>
+            <span id="fan-status">Fan: </span>
+        
+            </select>
+        </div>
+        <div class="device">
+            <h2>Door</h2>
+            <button id="door-open">Open</button>
+            <button id="door-close">Close</button>
+            <span id="door-status">Door: </span>
+        </div>
+    </div>
+</body>
+<style>
+    body {
+	background: url('https://img.freepik.com/premium-photo/smart-home-interface-with-augmented-realty-iot-object-interior-design_756748-3163.jpg?w=996');
+        background-size: cover;
+        background-position-y: -80px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        text-align: center;
+    }
+
+    .device {
+        margin-bottom: 50px;
+    }
+
+    button, select, input {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    #light-timer-form {
+        margin-top: 20px; 
+    }
+   
+    span {
+    display: block;
+    margin-top: 20px;
+    }
+
+    button:active {
+    transform: scale(1.2); /* Phóng to nút khi được nhấn */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Hiển thị bóng khi được nhấn */
+}
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBGwKebhDM6Em7ffJCAGiEAOZJxpqPvUlg",
+        authDomain: "smarthome-b5315.firebaseapp.com",
+        databaseURL: "https://smarthome-b5315-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "smarthome-b5315",
+        storageBucket: "smarthome-b5315.appspot.com",
+        messagingSenderId: "499724788300",
+        appId: "1:499724788300:web:6afda3e4ca87f7419f8ae9",
+        measurementId: "G-1N7ZVXQNKC"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+
+    var lightDB = firebase.database().ref("Light");
+
+</script>
+
+
+<script>
+    
+    // Turn on Led
+      document.getElementById('light-on').addEventListener('click', function() {
+        fetch('/led/on')
+        .then(response => {
+            if (response.ok) {
+                // Thêm lớp "active" vào nút "On" khi yêu cầu thành công
+                this.classList.add('active');
+                document.getElementById('light-status').textContent = 'Light: On';
+                lightDB.push("Light: On")
+            }
+        });
+    },);
+    // Turn off Led
+        document.getElementById('light-off').addEventListener('click', function() {
+         fetch('/led/off')
+        .then(response => {
+            if (response.ok) {
+                // Thêm lớp "active" vào nút "Off" khi yêu cầu thành công
+                this.classList.add('active');
+                document.getElementById('light-status').textContent = 'Light: Off';
+                lightDB.push("Light: Off")
+            }
+        });
+    },);
+
+    //Schedule time
+    document.getElementById('light-timer-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn form gửi dữ liệu đi
+        
+        let seconds = parseInt(document.getElementById('light-timer').value);
+        if (seconds > 0) {
+            // Bắt đầu hẹn giờ để bật đèn sau số giây đã chọn
+            startTimer(seconds);
+        }
+    });
+
+    function startTimer(seconds) {
+    let timer = setTimeout(function() {
+        // Gửi yêu cầu bật đèn khi hẹn giờ kết thúc
+        fetch('/led/on')
+            .then(response => {
+                if (response.ok) {
+                    // Thêm lớp "active" vào nút "On" khi yêu cầu thành công
+                    document.getElementById('light-on').classList.add('active');
+                    // Cập nhật trạng thái đèn
+                    document.getElementById('light-status').textContent = 'Light: On';
+                }
+            });
+    }, seconds * 1000); // Đổi giây thành mili giây
+    };
+
+
+    // Open door
+    document.getElementById('door-open').addEventListener('click', function() {
+        fetch('/door/open')
+        .then(response => {
+        if (response.ok) {
+            // Thêm lớp "active" vào nút "Open" khi yêu cầu thành công
+            this.classList.add('active');
+            document.getElementById('door-status').textContent = 'Door: Open';
+            lightDB.push("Door: Open")
+        }
+    });
+    },);
+
+        // Close door
+    document.getElementById('door-close').addEventListener('click', function() {
+        fetch('/door/close')
+        .then(response => {
+        if (response.ok) {
+            // Thêm lớp "active" vào nút "Open" khi yêu cầu thành công
+            this.classList.add('active');
+            document.getElementById('door-status').textContent = 'Door: Close';
+            lightDB.push("Door: Close")
+        }
+    });
+    },);
+</script>
+</html>
