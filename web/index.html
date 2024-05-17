@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Home App UI</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;700&display=swap");
+
+/* Base */
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  background: #c9cfd4;
+}
+
+.mobile {
+  width: 320px;
+  height: 95vh;
+  background: #1a1a1a;
+  position: absolute;
+  top: 2.5%;
+  left: calc((100% - 320px) / 2);
+  border-radius: 15px;
+  box-shadow: 2px 2px 9px 1px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-c {
+  flex-direction: column;
+}
+
+.input {
+  display: none;
+}
+
+/* End Base */
+
+.app {
+  width: 100%;
+  height: 90%;
+  position: relative;
+}
+
+.menu {
+  height: 10%;
+  width: 100%;
+  background: #2c2c2c;
+  position: absolute;
+  bottom: 0;
+  padding: 0 15px;
+  z-index: 99;
+}
+
+/* App */
+.app .page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 25px 15px;
+  transition: 0.5s linear;
+}
+
+.page-2 {
+  background: #1a1a1a;
+  transform: translateY(150%);
+  z-index: 5;
+}
+
+#page-2:checked ~ .mobile .app .page-2 {
+  transform: translateY(0);
+}
+
+p {
+  color: #f1f1f1;
+}
+
+/* Page 1 */
+
+.page-1 {
+  color: #fff;
+}
+
+.profile {
+  height: 10%;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.sub-heading {
+  font-size: 10px;
+  font-weight: 200;
+}
+
+.name {
+  width: 85%;
+  height: 100%;
+}
+
+.avatar {
+  width: 15%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.avatar img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.weather {
+  width: 100%;
+  height: 25%;
+}
+
+.daily,
+.monthly {
+  width: 50%;
+}
+
+.icon {
+  width: 35px;
+  height: 35px;
+  background: #2c2c2c;
+  border-radius: 50%;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  transition: 0.3s linear;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: #e2d606;
+}
+
+.controls {
+  width: 100%;
+  height: 65%;
+}
+
+.rooms {
+  width: 100%;
+  height: 10%;
+}
+
+.rooms h3 {
+  font-size: 15px;
+  font-weight: 200;
+  color: #c9cfd4;
+}
+
+.rooms h3.active,
+.rooms h3:hover {
+  color: #e2d606;
+}
+
+.control-pannel {
+  width: 100%;
+  height: 90%;
+  margin-top: 20px;
+}
+
+.ac,
+.lamp {
+  width: 50%;
+  height: 100%;
+  border-radius: 8px;
+  padding: 15px 10px;
+  text-align: center;
+}
+
+.ac {
+  background: #2c2c2c;
+}
+
+.control-pannel .icon {
+  background: inherit;
+  border-radius: none;
+}
+
+.switch {
+  width: 100%;
+}
+.toggle-switch {
+  width: 40px;
+  height: 20px;
+  border-radius: 15px;
+  border: 1px solid #c9cfd4;
+  position: relative;
+  transition: 0.3s linear;
+}
+
+.toggle-switch span {
+  width: 15px;
+  height: 15px;
+  background: #c9cfd4;
+  position: absolute;
+  border-radius: 50%;
+  top: 1.5px;
+  left: 2px;
+  cursor: pointer;
+}
+
+.toggle-input:checked ~ label .toggle-switch {
+  border-color: #e2d606;
+}
+
+.toggle-input:checked ~ label .toggle-switch span {
+  right: 2px;
+  left: unset;
+  background: #fff;
+  transition: 0.3s linear;
+}
+
+.control-pannel h3 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.control-pannel h2 {
+  font-size: 22px;
+  color: #e2d606;
+  font-weight: 400;
+}
+
+.control-pannel p {
+  font-size: 12px;
+  color: #c9cfd4;
+  font-weight: 200;
+  margin-top: 5px;
+}
+
+.adjust {
+  width: 90%;
+}
+
+.plus,
+.minus {
+  width: 45%;
+  height: 30px;
+  background: #454545;
+  justify-content: center;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #e2d606;
+}
+
+/* Lamp */
+
+.control-box {
+  height: 40%;
+  width: 100%;
+}
+
+/* End Page 1 */
+
+
+  </style>
+  <body>
+    <!-- Control Button Inputs -->
+    <!-- <input type="radio" class="input" id="page-1" name="pagination" />
+    <input type="radio" class="input" id="page-2" name="pagination" /> -->
+    <!-- End Control Button Inputs -->
+
+    <!-- Mobile -->
+    <div class="mobile">
+      <!-- App -->
+      <div class="app">
+        <div class="page page-1">
+          <!-- Controls -->
+          <div class="controls flex flex-c">
+            <div class="rooms flex">
+              <h3 class="active">Living Room</h3>
+              <h3>Dining Room</h3>
+              <h3>Kitchen</h3>
+            </div>
+            <div class="control-pannel flex">
+              <!-- AC -->
+              <div class="ac flex flex-c">
+                <div class="switch flex">
+                  <div class="icon flex">
+                    <i style='font-size:24px' class='fas'>&#xf863;</i>
+                  </div>
+
+                  <input
+                    type="checkbox"
+                    class="input toggle-input"
+                    id="ac-toggle"
+                  />
+                  <label for="ac-toggle">
+                    <div class="toggle-switch">
+                      <span></span>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="container">
+                  <h3>Fan</h3>
+                  <p>Mode:</p>
+                </div>
+                <div class="adjust flex">
+                  <button class="minus">1</button>
+                  <button class="minus">2</button>
+                  <button class="minus">3</button>
+                </div>
+              </div>
+
+              <!-- End AC -->
+
+              <!-- Lamp -->
+              <div class="lamp flex flex-c">
+                <div class="control-box flex flex-c">
+                  <div class="switch flex">
+                    <div class="icon flex">
+                      <ion-icon name="bulb-outline"></ion-icon>
+                    </div>
+
+                    <input
+                      type="checkbox"
+                      class="input toggle-input"
+                      id="lamp-toggle"
+                    />
+                    <label for="lamp-toggle">
+                      <div class="toggle-switch">
+                        <span></span>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="container">
+                    <h3>Led</h3>
+                    <p>Opened</p>
+                  </div>
+                </div>
+
+                <div class="control-box flex flex-c">
+                  <div class="switch flex">
+                    <div class="icon flex">
+                      <i style='font-size:24px' class='fas'>&#xf52b;</i>
+                    </div>
+
+                    <input
+                      type="checkbox"
+                      class="input toggle-input"
+                      id="tv-toggle"
+                    />
+                    <label for="tv-toggle">
+                      <div class="toggle-switch">
+                        <span></span>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="container">
+                    <h3>Door</h3>
+                    <p>Opened</p>
+                  </div>
+                </div>
+              </div>
+              <!-- End Lamp -->
+            </div>
+          </div>
+          <!-- End Controls -->
+        </div>
+        <!-- End Page 1 -->
+
+        <!-- Page 2 -->
+        <div class="page page-2">
+          <!-- Stats -->
+          <div class="stats flex flex-c">
+            <div class="time-period flex">
+              <div class="container">
+                <h3 class="heading">Power Statistics</h3>
+                <p class="sub-heading">See Power Expence here</p>
+              </div>
+
+              <div class="time flex">
+                This Month <ion-icon name="caret-down-outline"></ion-icon>
+              </div>
+            </div>
+
+            <!-- Graph -->
+            <div class="graph flex">
+              <div class="graph-x flex flex-c">
+                <div class="lines flex">
+                  <div class="line" style="--height: 80px"></div>
+                  <div class="line" style="--height: 150px"></div>
+                  <div class="line active" style="--height: 110px"></div>
+                  <div class="line" style="--height: 90px"></div>
+                  <div class="line" style="--height: 70px"></div>
+                </div>
+              </div>
+            </div>
+            <!-- End Graph -->
+          </div>
+          <!-- End Stats -->
+
+          
+        </div>
+      </div>
+      <!-- End App -->
+      <div class="menu flex">
+        <label for="page-1">
+          <div class="item">
+            <div class="icon flex">
+              <ion-icon name="exit-outline"></ion-icon>
+            </div>
+          </div>
+        </label>
+        <div class="item">
+          <div class="icon flex">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Mobile -->
+    <!-- Ion Icons Js -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+  </body>
+</html>
